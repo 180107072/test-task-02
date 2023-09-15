@@ -6,6 +6,7 @@ const PollBase = types.model<IPollBaseModel>({
   question: "",
   pictureName: "",
   picture: "",
+  loadingStatus: "idle",
   options: types.optional(types.map(types.boolean), {}),
 });
 
@@ -21,8 +22,15 @@ export const PollDraft = PollBase.actions((self) => ({
   },
 
   setPicture: flow(function* (picture: File) {
+    self.loadingStatus = "loading";
+
     const image = yield uploadImage(picture);
+
+    if (image === null) self.loadingStatus = "error";
+
     self.picture = image.url;
+
+    self.loadingStatus = "success";
   }),
 
   fillValues(poll: Record<string, any> | undefined) {

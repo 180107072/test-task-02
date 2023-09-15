@@ -11,6 +11,7 @@ export interface IPollBaseModel extends ModelPropertiesDeclaration {
   question: string;
   pictureName: string;
   picture: string;
+  loadingStatus: string;
   options: IOptionalIType<IMapType<ISimpleType<boolean>>, [undefined]>;
 }
 
