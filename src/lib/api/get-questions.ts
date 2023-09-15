@@ -1,7 +1,10 @@
-import axios, { config } from "./config";
+import axios from "axios";
+import { config, url } from "./config";
 
 export const getQuestions = async <T>() => {
-  const { data } = await axios.get("/api/questions", config);
+  const { href } = new URL("/api/questions", url);
+
+  const { data } = await axios.get(href, config);
 
   return data as T;
 };

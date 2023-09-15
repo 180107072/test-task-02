@@ -7,6 +7,8 @@ import { useQuestionComponents } from "@/hooks/useQuestionComponents";
 import { useInject } from "@/lib/hooks/useInject";
 import { RootStoreModel } from "@/lib/store/types";
 import { LastStep } from "@/components/questions/finish";
+import { useEffect, useState } from "react";
+import { getQuestions } from "@/lib/api/get-questions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +24,18 @@ const additional = [
   },
 ];
 
-export function ClientComponent({ questions }: { questions: Question[] }) {
+export function ClientComponent() {
   const { next, previous } = useInject(mapStore);
+
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setQuestions(await getQuestions());
+    };
+
+    fetchData();
+  }, []);
 
   const questionComponents = useQuestionComponents(questions);
 
