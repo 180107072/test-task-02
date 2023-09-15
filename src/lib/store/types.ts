@@ -12,6 +12,7 @@ export interface IPollBaseModel extends ModelPropertiesDeclaration {
   pictureName: string;
   picture: string;
   loadingStatus: string;
+  progress: number;
   options: IOptionalIType<IMapType<ISimpleType<boolean>>, [undefined]>;
 }
 

@@ -11,20 +11,30 @@ import { VisuallyHiddenInput } from "@/lib/ui/hidden-input";
 
 import { observer } from "mobx-react-lite";
 import { Box, CircularProgress } from "@mui/material";
+import { uploadImage } from "@/lib/api/upload-image";
 
 const mapStore = (rootStore: RootStoreModel) => ({
   setPicture: rootStore.pollDraft.setPicture,
+  setLoadingStatus: rootStore.pollDraft.setLoadingStatus,
   pictureName: rootStore.pollDraft.pictureName,
   picture: rootStore.pollDraft.picture,
   loadingStatus: rootStore.pollDraft.loadingStatus,
 });
 
-const Image = ({ status, src }: { status: string; src: string }) => {
+const Image = ({
+  status,
+  src,
+  progress,
+}: {
+  progress: number;
+  status: string;
+  src: string;
+}) => {
   switch (status) {
     case "loading":
       return (
         <Box className="w-full h-full flex items-center justify-center">
-          <CircularProgress />
+          <CircularProgress variant="determinate" value={progress} />
         </Box>
       );
     case "success":
@@ -39,7 +49,10 @@ const Image = ({ status, src }: { status: string; src: string }) => {
 };
 
 export const PictureQuestion: React.FC = observer(() => {
-  const { setPicture, picture, loadingStatus } = useInject(mapStore);
+  const { setPicture, setLoadingStatus, picture, loadingStatus } =
+    useInject(mapStore);
+
+  const [progress, setProgress] = React.useState(0);
 
   return (
     <>
@@ -60,7 +73,11 @@ export const PictureQuestion: React.FC = observer(() => {
 
             if (file === null) return;
 
-            setPicture(file);
+            setLoadingStatus("loading");
+
+            const image = await uploadImage(file, setProgress);
+
+            setPicture(image.url);
           }}
         />
       </Button>
@@ -71,7 +88,7 @@ export const PictureQuestion: React.FC = observer(() => {
           height: "600px",
         }}
       >
-        <Image status={loadingStatus} src={picture} />
+        <Image status={loadingStatus} progress={progress} src={picture} />
       </div>
     </>
   );

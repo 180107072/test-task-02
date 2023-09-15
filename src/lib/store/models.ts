@@ -7,6 +7,7 @@ const PollBase = types.model<IPollBaseModel>({
   pictureName: "",
   picture: "",
   loadingStatus: "idle",
+  progress: 0,
   options: types.optional(types.map(types.boolean), {}),
 });
 
@@ -21,17 +22,18 @@ export const PollDraft = PollBase.actions((self) => ({
       : self.options.set(option, true);
   },
 
-  setPicture: flow(function* (picture: File) {
-    self.loadingStatus = "loading";
+  setLoadingStatus(status: string) {
+    self.loadingStatus = status;
+  },
 
-    const image = yield uploadImage(picture);
+  setPicture(image: string | null) {
+    if (image === null) this.setLoadingStatus("error");
+    else {
+      self.picture = image;
 
-    if (image === null) self.loadingStatus = "error";
-
-    self.picture = image.url;
-
-    self.loadingStatus = "success";
-  }),
+      this.setLoadingStatus("success");
+    }
+  },
 
   fillValues(poll: Record<string, any> | undefined) {
     if (!poll) return this.clearValues();
