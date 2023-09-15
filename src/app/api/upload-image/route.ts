@@ -3,14 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API = "https://freeimage.host/api/1/upload";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "4mb",
-    },
-  },
-};
-
 export async function POST(request: NextRequest) {
   const url = new URL(API);
   const { data } = await axios
