@@ -10,7 +10,7 @@ export const uploadImage = async (file: File) => {
   formData.append("format", "json");
   formData.append("source", file, file.name);
 
-  const { data } = await axios.post(href, formData, config);
+  const { data } = await axios.post("/api/questions", formData, config);
 
   return data;
 };

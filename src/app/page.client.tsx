@@ -25,6 +25,7 @@ const additional = [
 ];
 
 export function ClientComponent() {
+  console.log(process.env.NEXT_PUBLIC_SITE_URL);
   const { next, previous } = useInject(mapStore);
 
   const [questions, setQuestions] = useState<Question[]>([]);

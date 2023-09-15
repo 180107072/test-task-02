@@ -4,7 +4,7 @@ import { config, url } from "./config";
 export const getQuestions = async <T>() => {
   const { href } = new URL("/api/questions", url);
 
-  const { data } = await axios.get(href, config);
+  const { data } = await axios.get("/api/questions", config);
 
   return data as T;
 };
