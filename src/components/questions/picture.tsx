@@ -10,7 +10,7 @@ import { RootStoreModel } from "@/lib/store/types";
 import { VisuallyHiddenInput } from "@/lib/ui/hidden-input";
 
 import { observer } from "mobx-react-lite";
-import { Box, CircularProgress } from "@mui/material";
+import { ImageWithStatus } from "@/lib/ui/image";
 import { uploadImage } from "@/lib/api/upload-image";
 
 const mapStore = (rootStore: RootStoreModel) => ({
@@ -20,33 +20,6 @@ const mapStore = (rootStore: RootStoreModel) => ({
   picture: rootStore.pollDraft.picture,
   loadingStatus: rootStore.pollDraft.loadingStatus,
 });
-
-const Image = ({
-  status,
-  src,
-  progress,
-}: {
-  progress: number;
-  status: string;
-  src: string;
-}) => {
-  switch (status) {
-    case "loading":
-      return (
-        <Box className="w-full h-full flex items-center justify-center">
-          <CircularProgress variant="determinate" value={progress} />
-        </Box>
-      );
-    case "success":
-      return <img src={src} className="w-full h-full object-cover" />;
-    case "error":
-      return (
-        <Box className="w-full uppercase h-full flex items-center justify-center">
-          error
-        </Box>
-      );
-  }
-};
 
 export const PictureQuestion: React.FC = observer(() => {
   const { setPicture, setLoadingStatus, picture, loadingStatus } =
@@ -88,7 +61,11 @@ export const PictureQuestion: React.FC = observer(() => {
           height: "600px",
         }}
       >
-        <Image status={loadingStatus} progress={progress} src={picture} />
+        <ImageWithStatus
+          status={loadingStatus}
+          progress={progress}
+          src={picture}
+        />
       </div>
     </>
   );

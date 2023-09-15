@@ -1,5 +1,10 @@
 import { SnapshotIn, flow, getEnv, getSnapshot, types } from "mobx-state-tree";
-import { IPollBaseModel, RootStoreModel, PollDraftModel } from "./types";
+import {
+  IPollBaseModel,
+  RootStoreModel,
+  PollDraftModel,
+  LoadingStatus,
+} from "./types";
 import { uploadImage } from "../api/upload-image";
 
 const PollBase = types.model<IPollBaseModel>({
@@ -22,7 +27,7 @@ export const PollDraft = PollBase.actions((self) => ({
       : self.options.set(option, true);
   },
 
-  setLoadingStatus(status: string) {
+  setLoadingStatus(status: LoadingStatus) {
     self.loadingStatus = status;
   },
 

@@ -11,10 +11,12 @@ export interface IPollBaseModel extends ModelPropertiesDeclaration {
   question: string;
   pictureName: string;
   picture: string;
-  loadingStatus: string;
+  loadingStatus: LoadingStatus;
   progress: number;
   options: IOptionalIType<IMapType<ISimpleType<boolean>>, [undefined]>;
 }
+
+export type LoadingStatus = "idle" | "loading" | "error" | "success";
 
 export interface IPollBaseVolatileModel {
   picture: File | null;
