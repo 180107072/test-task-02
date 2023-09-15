@@ -1,8 +1,7 @@
 import axios from "axios";
-import { key, config, url } from "./config";
+import { key, config } from "./config";
 
 export const uploadImage = async (file: File) => {
-  const { href } = new URL("/api/upload-image", url);
   const formData = new FormData();
 
   formData.append("key", key);

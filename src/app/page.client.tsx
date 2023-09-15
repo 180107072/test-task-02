@@ -25,7 +25,6 @@ const additional = [
 ];
 
 export function ClientComponent() {
-  console.log(process.env.NEXT_PUBLIC_SITE_URL);
   const { next, previous } = useInject(mapStore);
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -39,6 +38,8 @@ export function ClientComponent() {
   }, []);
 
   const questionComponents = useQuestionComponents(questions);
+
+  if (!questionComponents.length) return null;
 
   const allComponents = [...questionComponents, ...additional];
 

@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     .post(url.href, await request.formData())
     .catch((res) => res.data)
     .catch((e) => {
-      console.log(e);
       return null;
     });
 
