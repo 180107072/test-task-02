@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "peerDependenciesMeta": {
+    "debug": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/node": "20.6.1",
     "@types/react": "18.2.21",
